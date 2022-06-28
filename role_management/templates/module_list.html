@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+<title>{% block title %}Add Module{% endblock %}</title>
+{% block content %}
+<div class="module_list" ng-controller="role_management_controller">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 newtabe">
+            <h6 class="m-0 font-weight-bold text-primary">Module List</h6>
+            <a href="/management/module/add/" class="link_style add_batch new_btn">
+                                Go to Create Module <i class="fa fa-angle-right" aria-hidden="true"></i>
+                            </a>
+<!--            <a class="btn btn-secondary" href="/management/module/add/">Create Module</a>-->
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>ID.</th>
+                        <th>Module Name</th>
+                        <th>Created By</th>
+                        <th>Date Joined</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    {% for module, module_name in modules %}
+                        <tr>
+                            <td>{{ module.id }}</td>
+                            <td>{{ module_name }}</td>
+                            <td>{{ module.created_by }}</td>
+                            <td>{{ module.date_joined | date:"d-M-Y" }}</td>
+                            <td>
+                                <a href="/management/module/edit?module_id={{ module.id }}" class="icon_btn m_r_10"><i class="fas fa-edit"></i></a>
+                                <a href="#myModal" class="trigger-btn icon_btn delete_event" data-toggle="modal" id="{{ module.id }}" data-ng-click="ShowId($event)"><i class="far fa-trash-alt"></i></a>
+<!--                                <span class="dropdown">-->
+<!--                                    <a href="#" class="icon_1" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--                                        <i class="fas fa-ellipsis-v"></i>-->
+<!--                                    </a>-->
+<!--                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">-->
+<!--                                        <a class="dropdown-item" href="#">Action</a>-->
+<!--                                        <a class="dropdown-item" href="#">Another action</a>-->
+<!--                                        <a class="dropdown-item" href="#">Something else here</a>-->
+<!--                                    </div>-->
+<!--                                </span>-->
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="myModal" class="modal fade">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="icon-box">
+                        <i class="far fa-trash-alt"></i>
+                    </div><br>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <h4 class="modal-title">Are you sure?</h4>
+                    <!--<p>Do you really want to delete these records? This process cannot be undone.</p>-->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                    <a href="/management/module/delete_module?module_id={a module_id a}" class="btn btn-danger delete-action">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+    {% block footer_datatable %}
+        <script src="{% static '/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+        <script src="{% static '/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+        <script src="{% static '/js/demo/datatables-demo.js' %}"></script>
+        <script src="{% static '/js/role_management_js.js' %}"></script>
+    {% endblock footer_datatable %}
+
+</div>
+

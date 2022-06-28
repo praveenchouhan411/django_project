@@ -1,0 +1,11 @@
+asgiref==3.5.2
+backports.zoneinfo==0.2.1
+Django==4.0.5
+djangorestframework==3.10.3
+djangorestframework-simplejwt==1.2
+ecdsa==0.17.0
+pyasn1==0.4.8
+python-jose==3.3.0
+rsa==4.8
+six==1.16.0
+sqlparse==0.4.2

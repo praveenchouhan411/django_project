@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+    <div class="row">
+    {% for key, val in mod_list.items %}
+        {% for module in val %}
+            {% for module_name in module %}
+                  <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                      <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                          <div class="col mr-2">
+                              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="font-size: 16px;">
+                                  {% if module_name == 'Purchase Management' %} <a href="/purchase_management/item_list">  {{ module_name }}</a>
+                                  {% endif %}
+                                  {% if module_name == 'Purchasing Staff' %} <a href="/purchasing_staff/create_purchasestaff_batch">  {{ module_name }}</a>
+                                  {% endif %}
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            {% endfor %}
+        {% endfor %}
+    {% endfor %}
+    </div>
+{% endblock %}
+<div class=""> {{ module_names }} </div>
+<div class="row">
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="font-size: 16px;">{{ module }}</div>
+              </div>
+              <div class="col-auto">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>

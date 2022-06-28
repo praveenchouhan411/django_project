@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="row test">
+    <div class="col-xl-12 col-lg-12">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 newtabe">
+                <h6 class="m-0 font-weight-bold text-primary">Edit User Type</h6>
+                <a href="/management/admin/get_users_type/" class="link_style add_batch new_btn">
+                Go to User Type List <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </div>
+            <div class="card-body cb-p">
+                <form action="/management/admin/get_users_type/" method="POST">{% csrf_token %}
+                    <div class="form-group row">
+                        <label for="UserName" class="col-sm-2 col-form-label">User Type Name</label>
+                        <div class="col-sm-5">
+                            <input type="text" name="user_type_name" class="form-control" id="UserName"
+                                   value="{{ user_type_details }}" placeholder="User Name" required>
+                            <input type="hidden" name="user_type_id" class="form-control" value="{{ user_type_id }}"
+                                   placeholder="User Name">
+                            <input type="hidden" name="module_id" id="module_id" class="form-control"
+                                   value="{{ module_id }}" placeholder="User Name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="is_active" class="col-sm-2 col-form-label">Is Active</label>
+                        <div class="col-sm-5">
+                            {% if user_type_details.is_active %}
+                            <input type="radio" name="is_active" value="True" checked="checked"> Active
+                            <input type="radio" name="is_active" value="False"> Inactive
+                            {% else %}
+                            <input type="radio" name="is_active" value="True"> Active
+                            <input type="radio" name="is_active" value="False" checked="checked"> Inactive
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="table-responsive edit_user_type">
+                        <table class="table table-bordered" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>Modules Name</th>
+                                <!--<th>All Rights</th>-->
+                                <th>Create</th>
+                                <th>Delete</th>
+                                <th>Edit</th>
+                                <th>Read</th>
+                            </tr>
+                            </thead>
+                            {% for item in module_name_list %}
+                            <tr>
+                                <td>{{ item.module_name }}</td>
+                                <td>
+                                    {% if item.module_rights.0.0.1 == 'true' %}
+                                    <div class="custom-control custom-checkbox text-center">
+                                        <input type="checkbox"
+                                               class="custom-control-input {{ item.module_rights.0.0.1 }}"
+                                               onclick="checkBoxEvent(this)"
+                                               value="create"
+                                               name="{{ item.module_rights.0.0.0 }}_{{ item.module_rights.0.1 }}"
+                                               id="{{ item.module_rights.0.0.0 }}_{{ item.module_rights.0.1 }}" checked>
+                                        <input id='checkbox_{{ item.module_rights.0.0.0 }}_{{ item.module_rights.0.1 }}'
+                                               type='hidden' value='true'
+                                               name='checkbox_{{ item.module_id }}_{{ item.module_rights.0.0.0 }}_{{ item.module_rights.0.1 }}'>
+                                        <label class="custom-control-label"
+                                               for="{{ item.module_rights.0.0.0 }}_{{ item.module_rights.0.1 }}"></label>
+                                    </div>
+                                    {% else %}
+                                    <div class="custom-control custom-checkbox text-center">
+                                        <input type="checkbox" class="custom-control-input"
+                                               onclick="checkBoxEvent(this)"
+                                               name="{{ item.module_rights.0.0.0 }}_{{ item.module_rights.0.1 }}"
+                                               value="create"
+                                               id="{{ item.module_rights.0.0.0 }}_{{ item.module_rights.0.1 }}">
+                                        <input id='checkbox_{{ item.module_rights.0.0.0 }}_{{ item.module_rights.0.1 }}'
+                                               type='hidden' value='false'
+                                               name='checkbox_{{ item.module_id }}_{{ item.module_rights.0.0.0 }}_{{ item.module_rights.0.1 }}'>
+                                        <label class="custom-control-label"
+                                               for="{{ item.module_rights.0.0.0 }}_{{ item.module_rights.0.1 }}"></label>
+                                    </div>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if item.module_rights.1.0.1 == 'true' %}
+                                    <div class="custom-control custom-checkbox text-center {{ item.module_rights.1.0.1 }}">
+                                        <input type="checkbox" class="custom-control-input"
+                                               onclick="checkBoxEvent(this)"
+                                               name="{{ item.module_rights.1.0.0 }}_{{ item.module_rights.1.1 }}"
+                                               value="delete"
+                                               id="{{ item.module_rights.1.0.0 }}_{{ item.module_rights.1.1 }}" checked>
+                                        <input id='checkbox_{{ item.module_rights.1.0.0 }}_{{ item.module_rights.1.1 }}'
+                                               type='hidden' value='true'
+                                               name='checkbox_{{ item.module_id }}_{{ item.module_rights.1.0.0 }}_{{ item.module_rights.1.1 }}'>
+                                        <label class="custom-control-label"
+                                               for="{{ item.module_rights.1.0.0 }}_{{ item.module_rights.1.1 }}"></label>
+                                    </div>
+                                    {% else %}
+                                    <div class="custom-control custom-checkbox text-center {{ item.module_rights.1.0.1 }}">
+                                        <input type="checkbox" class="custom-control-input"
+                                               onclick="checkBoxEvent(this)"
+                                               name="{{ item.module_rights.1.0.0 }}_{{ item.module_rights.1.1 }}"
+                                               value="delete"
+                                               id="{{ item.module_rights.1.0.0 }}_{{ item.module_rights.1.1 }}">
+                                        <input id='checkbox_{{ item.module_rights.1.0.0 }}_{{ item.module_rights.1.1 }}'
+                                               type='hidden' value='false'
+                                               name='checkbox_{{ item.module_id }}_{{ item.module_rights.1.0.0 }}_{{ item.module_rights.1.1 }}'>
+                                        <label class="custom-control-label"
+                                               for="{{ item.module_rights.1.0.0 }}_{{ item.module_rights.1.1 }}"></label>
+                                    </div>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if item.module_rights.2.0.1 == 'true' %}
+                                    <div class="custom-control custom-checkbox text-center div-3">
+                                        <input type="checkbox" class="custom-control-input"
+                                               onclick="checkBoxEvent(this)"
+                                               name="{{ item.module_rights.2.0.0 }}_{{ item.module_rights.2.1 }}"
+                                               value="edit"
+                                               id="{{ item.module_rights.2.0.0 }}_{{ item.module_rights.2.1 }}" checked>
+                                        <input id='checkbox_{{ item.module_rights.2.0.0 }}_{{ item.module_rights.2.1 }}'
+                                               type='hidden' value='true'
+                                               name='checkbox_{{ item.module_id }}_{{ item.module_rights.2.0.0 }}_{{ item.module_rights.2.1 }}'>
+                                        <label class="custom-control-label"
+                                               for="{{ item.module_rights.2.0.0 }}_{{ item.module_rights.2.1 }}"></label>
+                                    </div>
+                                    {% else %}
+                                    <div class="custom-control custom-checkbox text-center div-3a">
+                                        <input type="checkbox" class="custom-control-input"
+                                               onclick="checkBoxEvent(this)"
+                                               name="{{ item.module_rights.2.0.0 }}_{{ item.module_rights.2.1 }}"
+                                               value="edit"
+                                               id="{{ item.module_rights.2.0.0 }}_{{ item.module_rights.2.1 }}">
+                                        <input id='checkbox_{{ item.module_rights.2.0.0 }}_{{ item.module_rights.2.1 }}'
+                                               type='hidden' value='false'
+                                               name='checkbox_{{ item.module_id }}_{{ item.module_rights.2.0.0 }}_{{ item.module_rights.2.1 }}'>
+                                        <label class="custom-control-label"
+                                               for="{{ item.module_rights.2.0.0 }}_{{ item.module_rights.2.1 }}"></label>
+                                    </div>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if item.module_rights.3.0.1 == 'true' %}
+                                    <div class="custom-control custom-checkbox text-center">
+                                        <input type="checkbox" class="custom-control-input"
+                                               onclick="checkBoxEvent(this)"
+                                               name="{{ item.module_rights.3.0.0 }}_{{ item.module_rights.3.1 }}"
+                                               value="read"
+                                               id="{{ item.module_rights.3.0.0 }}_{{ item.module_rights.3.1 }}" checked>
+                                        <input id='checkbox_{{ item.module_rights.3.0.0 }}_{{ item.module_rights.3.1 }}'
+                                               type='hidden' value='true'
+                                               name='checkbox_{{ item.module_id }}_{{ item.module_rights.3.0.0 }}_{{ item.module_rights.3.1 }}'>
+                                        <label class="custom-control-label"
+                                               for="{{ item.module_rights.3.0.0 }}_{{ item.module_rights.3.1 }}"></label>
+                                    </div>
+                                    {% else %}
+                                    <div class="custom-control custom-checkbox text-center">
+                                        <input type="checkbox" class="custom-control-input"
+                                               onclick="checkBoxEvent(this)"
+                                               name="{{ item.module_rights.3.0.0 }}_{{ item.module_rights.3.1 }}"
+                                               value="read"
+                                               id="{{ item.module_rights.3.0.0 }}_{{ item.module_rights.3.1 }}">
+                                        <input id='checkbox_{{ item.module_rights.3.0.0 }}_{{ item.module_rights.3.1 }}'
+                                               type='hidden' value='false'
+                                               name='checkbox_{{ item.module_id }}_{{ item.module_rights.3.0.0 }}_{{ item.module_rights.3.1 }}'>
+                                        <label class="custom-control-label"
+                                               for="{{ item.module_rights.3.0.0 }}_{{ item.module_rights.3.1 }}"></label>
+                                    </div>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-success new_btn m-t-15" value="Update">
+                        <a href="/management/admin/get_users_type/" class="btn btn-danger new_btn m-t-15">Cancel</a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{%  endblock %}
+{% block footer_datatable %}
+<script src="{% static '/js/role_management_js.js' %}"></script>
+{% endblock footer_datatable %}

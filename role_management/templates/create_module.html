@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-header py-3 newtabe">
+                    <h6 class="m-0 font-weight-bold text-primary">Create New Module</h6>
+                    <a href="/management/module/get/" class="link_style add_batch new_btn">
+                                Go to  Module List <i class="fa fa-angle-right" aria-hidden="true"></i>
+                            </a>
+                </div>
+                <div class="card-body">
+                    <div class="col-md-4">
+                        <form class="needs-validation" method="post" action="/management/module/add/" name="id_module_name" novalidate>{% csrf_token %}
+                            <input type="hidden" value="{{ request.user.id }}" name="user_id">
+                            <input type="hidden" class="module_url" value="{% if request.is_secure %}HTTPS://{% else %}HTTP://{% endif %}{{ host }}" name="api_host">
+                            <div class="form-group">
+                                <label for="id_user_type">Select Item</label>
+                                <select class="form-control" name="module_name" class="module_name" id="id_module_name" required>
+                                    <option selected="selected" value="">Select Item</option>
+                                    {% for key, val in modules.items %}
+                                        <option value="{{ key }}">{{ val|title }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="valid-feedback module_valid"></div>
+                                <div class="invalid-feedback module_invalid">Please Select Module</div>
+                            </div>
+                            <div class="form-group">
+                              <input type="hidden" name="created_by" value="{{ request.user.username }}" id="id_created_by" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" name="user_id" class="form-control" value="{{ request.user.id }}">
+                            </div>
+                            <div class="form-group">
+                                <input type="hidden" name="user_name" class="form-control" value="{{ request.user.username }}">
+                            </div>
+                            <input type="submit" class="btn btn-success new_btn" id="save_batch_details" value="Add Module">
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block footer_datatable %}
+<script src="{% static '/js/role_management_js.js' %}"></script>
+{% endblock footer_datatable %}

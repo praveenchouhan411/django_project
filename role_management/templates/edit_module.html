@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+   <div class="row">
+    <div class="col-xl-12 col-lg-12">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3 newtabe">
+          <h6 class="m-0 font-weight-bold text-primary">Edit Module</h6>
+<!--            <a class="btn btn-secondary" href="/management/module/get/">Module List</a>-->
+            <a href="/management/module/get/" class="link_style add_batch new_btn">
+                                Go to Module List <i class="fa fa-angle-right" aria-hidden="true"></i>
+                            </a>
+        </div>
+        <div class="card-body cb-p">
+            {% for module in module_details %}
+            <form action="/management/module/get/" method="POST">{% csrf_token %}
+                <div class="form-group row">
+                    <label for="Module_name" class="col-sm-3 col-form-label">Module Names</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="Module_name" name="module_name" value="{{ module_details.module_name }}" placeholder="Module Name" readonly>
+                    </div>
+                </div>
+                <input type="hidden" class="form-control" id="module_id" name="module_id" value="{{ module.id }}">
+                <div class="form-group row">
+                    <label for="is_active" class="col-sm-3 col-form-label">Is Active</label>
+                    <div class="col-sm-5">
+                        {% if module.is_active %}
+                            <input type="radio" name="is_active" value="True" checked="checked"> Active
+                            <input type="radio" name="is_active" value="False"> Inactive
+                        {% else %}
+                            <input type="radio" name="is_active" value="True"> Active
+                            <input type="radio" name="is_active" value="False" checked="checked"> Inactive
+                        {% endif %}
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success new_btn m-t-15">Update</button>
+                <a href="/management/module/get/" class="btn btn-danger new_btn m-t-15 ">Cancel</a>
+            {% endfor %}
+            </form>
+        </div>
+      </div>
+    </div>
+   </div>
+{% endblock %}

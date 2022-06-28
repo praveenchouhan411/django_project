@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+<title>{% block title %}User Type List{% endblock %}</title>
+{% block content %}
+<div class="user_type_list" ng-controller="role_management_controller">
+    <div class="card shadow">
+        <div class="card-header py-3 newtabe">
+            <h6 class="m-0 font-weight-bold text-primary">User Type List</h6>
+<!--            <a class="btn btn-secondary" href="/management/admin/create_user_type/">Add User Type</a>-->
+            <a href="/management/admin/create_user_type/" class="link_style add_batch new_btn">
+                Go to Add User Type <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>ID.</th>
+                        <th>User Type Name</th>
+                        <th>Created By</th>
+                        <th>Created Date</th>
+                        <th>Is Active</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    {% for user_type, id in user_type_list %}
+                        <tr>
+                            <td>{{ id }}</td>
+                            <td>{{ user_type.user_type_name }}</td>
+                            <td>{{ user_type.created_by }}</td>
+                            <td>{{ user_type.date_joined | date:"M d, Y" }}</td>
+                            <td>{{ user_type.is_active }}</td>
+                            <td>
+                                <a href="/management/module/edit_user_type?user_type_id={{ user_type.id }}" class="icon_btn m_r_10"><i class="fas fa-edit"></i></a>
+                                <a href="#myModal" class="trigger-btn icon_btn delete_event" data-toggle="modal" id="{{ user_type.id }}" data-ng-click="ShowId($event)"><i class="far fa-trash-alt"></i></a>
+
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+    <div id="myModal" class="modal fade">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="icon-box">
+                        <i class="far fa-trash-alt"></i>
+                    </div><br>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <h4 class="modal-title">Are you sure?</h4>
+                    <!--<p>Do you really want to delete these records? This process cannot be undone.</p>-->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                    <a href="/management/module/delete_user_type?user_type_id={a module_id a}" class="btn btn-danger delete-action">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block footer_datatable %}
+    <script src="{% static '/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static '/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static '/js/demo/datatables-demo.js' %}"></script>
+    <script src="{% static '/js/role_management_js.js' %}"></script>
+{% endblock footer_datatable %}

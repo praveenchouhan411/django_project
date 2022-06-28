@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{%  block content %}
+  <div class="row">
+    <div class="col-xl-12 col-lg-12">
+      <div class="card shadow mb-4">
+        <div class="card-body cb-p">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="w-50">
+                        <img class="rounded-circle img-fluid" src="/static/img/default-user.png" alt="">
+                    </div>
+                </div>
+                <div class="col-md-5 m-t-10">
+                    <strong>{{ request.user.username }}</strong><br>
+                    <a href="#">{{ request.user.email }}</a>
+                    <span> {{ request.user.first_name }} {{ request.user.last_name }}</span>
+                </div>
+            </div>
+            <hr>
+            <form action="/management/profile/" id="profile_form" method="post">{% csrf_token %}
+                <div class="form-group row">
+                    <label for="colFormLabel" class="col-sm-3 col-form-label">User Name</label>
+                    <div class="col-sm-5">
+                        <input type="text" name="user_name" class="form-control profile-username name_validation" id="colFormLabel_username" value="{{ request.user.username }}" placeholder="User Name" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="colFormLabel" class="col-sm-3 col-form-label">First Name</label>
+                    <div class="col-sm-5">
+                        <input type="text" name="first_name" class="form-control profile-firstname name_validation" id="colFormLabel_first_name"  value="{{ request.user.first_name }}" placeholder="First Name" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="colFormLabel" class="col-sm-3 col-form-label">Last Name</label>
+                    <div class="col-sm-5">
+                        <input type="text" name="last_name" class="form-control profile-lastname name_validation" id="colFormLabel_last_name" value="{{ request.user.last_name }}" placeholder="Last Name" readonly>
+                    </div>
+                </div>
+<!--                <div class="form-group row">-->
+<!--                    <label for="colFormLabel" class="col-sm-3 col-form-label">Password</label>-->
+<!--                    <div class="col-sm-5">-->
+<!--                        <input type="password" name="password" class="form-control" id="colFormLabel_password" value="{{ request.user.password }}" placeholder="Full Name" readonly>-->
+<!--                    </div>-->
+<!--                </div>-->
+                <div class="form-group row">
+                    <label for="colFormLabel" class="col-sm-3 col-form-label">Email</label>
+                    <div class="col-sm-5">
+                        <input type="email" name="email" class="form-control" id="colFormLabel_email" value="{{ request.user.email }}" placeholder="Email" readonly>
+                    </div>
+                </div>
+
+                <input type="button" class="btn btn-success edit-profile-info" value="Edit">
+                <input type="submit" class="btn btn-success update_profile" value="Update">
+<!--                <input type="submit" class="btn btn-danger" value="Cancel">-->
+            </form>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+{%  endblock %}
+
+{% block footer_datatable %}
+        <script src="{% static '/js/role_management_js.js' %}"></script>
+{% endblock footer_datatable %}

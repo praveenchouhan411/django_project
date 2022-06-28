@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+<p>Create User</p>
+
+{% block content %}
+    <div class="row">
+    {% if user_type == True %}
+        <div class="col-md-12">
+        <div class="card shadow">
+                <div class="card-header py-3 newtabe">
+                  <h6 class="m-0 font-weight-bold text-primary">Create New User</h6>
+                    <a href="/management/admin/user_list/" class="link_style add_batch new_btn">
+                Go to User List <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+<!--                    <a class="btn btn-secondary" href="/management/admin/user_list/">User List</a>-->
+                </div>
+                <div class="card-body">
+                    <div class="col-md-6">
+                     <form action="/management/admin/create_user/" method="POST" class="needs-validation" novalidate>{% csrf_token %}
+                        <div class="form-group">
+                            <label for="id_user_type"></label>
+                                <select class="form-control" name="user_type" required id="id_user_type">
+                                   {% for field in form.user_type  %}
+                                        {{ field }}
+                                   {% endfor %}
+                                </select>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">Please Select User Type.</div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="username" value="" id="id_username" class="form-control" placeholder="User Name" required>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">Please fill out this field.</div>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" name="password1" id="id_password1" placeholder="Password" required>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">
+                                <ul class="font-14">
+                                <li>Your password can't be too similar to your other personal information.</li>
+                                <li>Your password must contain at least 8 characters.</li>
+                                <li>Your password can't be a commonly used password.</li>
+                                <li>Your password can't be entirely numeric.</li>
+                                </ul>
+                            </div>
+                            <span class="helptext">
+
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="password2" class="form-control" id="id_password2" placeholder="Confirm Password" required>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">Enter the same password as before, for verification.</div>
+                            <!--<span class="helptext font-14">Enter the same password as before, for verification.</span>-->
+                        </div>
+
+                        <div class="form-group">
+                            <input type="email" class="form-control" name="email" id="id_email" placeholder="Enter Email ID" required>
+                            <div class="valid-feedback">Valid.</div>
+                            <div class="invalid-feedback">Please fill out this field.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="hidden" name="created_by" value="{{ request.user.username }}" id="id_created_by" class="form-control">
+                        </div>
+
+<!--                        <div class="form-group" id="id_user_type">-->
+<!--                            <label for="id_module_name">Choose User Type</label>-->
+<!--                            <div class="custom-control custom-radio">-->
+<!--                              <input type="radio" class="custom-control-input" id="id_is_superuser" name="is_superuser" value="is_superuser" required>-->
+<!--                              <label class="custom-control-label" for="id_is_superuser"> Superuser</label>-->
+<!--                            </div>-->
+<!--                            <div class="custom-control custom-radio">-->
+<!--                              <input type="radio" class="custom-control-input" id="id_is_staff" name="is_superuser" value="is_staff" required>-->
+<!--                              <label class="custom-control-label" for="id_is_staff"> Staffuser</label>-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash;<input type="radio" name="is_superuser" id="id_is_superuser" value="is_superuser" required>Superuser&ndash;&gt;-->
+<!--                            &lt;!&ndash;<input type="radio" name="is_superuser" id="id_is_staff" value="is_staff" required>Staffuser&ndash;&gt;-->
+<!--                        </div>-->
+
+                        <input type="submit" class="btn btn-success" value="Register">
+                    </form>
+                    </div>
+                </div>
+        </div>
+     </div>
+    {% else %}
+        <div class="card shadow">
+            <div class="card-header py-3 color">
+                <span>No User Type is created yet ! <a href="/management/admin/create_user_type/">create user type</a> </span>
+            </div>
+         </div>
+    {% endif %}
+    </div>
+{% endblock %}
